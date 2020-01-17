@@ -9,6 +9,7 @@
     <color name="colorWhiteTransparent50">#80FFFFFF</color>
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorGrey">#818181</color>
     
     <color name="colorGradientGreenStart">#42E695</color>
     <color name="colorGradientGreenStop">#3BB2B8</color>
