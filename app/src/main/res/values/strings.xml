@@ -11,6 +11,9 @@
     <string name="upper_done">DONE!</string>
     <string name="desc_minus">minus</string>
     <string name="desc_plus">plus</string>
+    <string name="desc_pause_play">pause or play</string>
+    <string name="desc_replay">replay</string>
+    <string name="desc_stop">stop</string>
     <string name="time">00:00</string>
     <string name="set_number">0</string>
 </resources>

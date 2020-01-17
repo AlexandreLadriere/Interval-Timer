@@ -8,11 +8,92 @@
     android:background="@drawable/blue_gradient">
 
     <LinearLayout
+        android:id="@+id/a_timer_linear_layout_v_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/a_timer_text_view_step_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/upper_set"
+            android:textColor="@color/colorWhiteTransparent50"
+            android:textSize="34sp"
+            app:fontFamily="@font/montserrat"
+            android:paddingBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/a_timer_text_view_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/time"
+            android:textColor="@color/colorWhite"
+            android:textSize="54sp"
+            app:fontFamily="@font/montserrat" />
+
+        <TextView
+            android:id="@+id/a_timer_text_view_step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/upper_work_it"
+            android:textColor="@color/colorWhiteTransparent50"
+            android:textSize="34sp"
+            app:fontFamily="@font/montserrat"
+            android:paddingTop="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/a_timer_linear_layout_v_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="50dp"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/a_timer_image_button_replay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            app:srcCompat="@drawable/ic_replay_24px"
+            android:contentDescription="@string/desc_replay" />
+
+        <ImageButton
+            android:id="@+id/a_timer_image_button_play_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            android:tint="@color/colorWhite"
+            app:srcCompat="@drawable/ic_pause_24px"
+            android:contentDescription="@string/desc_pause_play"
+            android:layout_gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"/>
+
+        <ImageButton
+            android:id="@+id/a_timer_image_button_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
+            app:srcCompat="@drawable/ic_stop_24px"
+            android:contentDescription="@string/desc_pause_play" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

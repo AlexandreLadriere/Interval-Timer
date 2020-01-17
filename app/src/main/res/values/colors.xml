@@ -7,6 +7,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorWhite2">#F0EDED</color>
     <color name="colorWhiteTransparent50">#80FFFFFF</color>
+    <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorBlack">#000000</color>
     
     <color name="colorGradientGreenStart">#42E695</color>
