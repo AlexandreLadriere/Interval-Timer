@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Interval Timer</string>
+    <string name="sets">Sets</string>
+    <string name="upper_set">SET</string>
+    <string name="upper_work_it">WORK IT</string>
+    <string name="upper_get_ready">GET READY</string>
+    <string name="upper_rest_now">REST NOW</string>
+    <string name="work_interval">Work Interval</string>
+    <string name="rest_interval">Rest Interval</string>
+    <string name="upper_start">START</string>
+    <string name="upper_done">DONE!</string>
 </resources>
