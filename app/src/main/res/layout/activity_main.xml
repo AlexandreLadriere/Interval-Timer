@@ -4,15 +4,223 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/colorWhite">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/a_main_linear_layout_v_main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/a_main_text_view_sets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sets"
+            android:textColor="@color/colorBlack"
+            android:textSize="22sp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/a_main_constraint_layout_sets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/a_main_image_button_sets_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorWhite"
+                android:contentDescription="@string/desc_minus"
+                android:tint="@color/colorGradientGreenStop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px" />
+
+            <TextView
+                android:id="@+id/a_main_text_view_sets_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/set_number"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/a_main_image_button_sets_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:background="@color/colorWhite"
+                android:contentDescription="@string/desc_plus"
+                android:tint="@color/colorGradientGreenStop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/a_main_text_view_work_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/work_interval"
+            android:textColor="@color/colorBlack"
+            android:textSize="22sp"
+            android:paddingTop="30dp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/a_main_constraint_layout_work_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/a_main_image_button_work_interval_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorWhite"
+                android:contentDescription="@string/desc_minus"
+                android:tint="@color/colorGradientGreenStop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px" />
+
+            <TextView
+                android:id="@+id/a_main_text_view_work_interval_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/a_main_image_button_work_interval_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:background="@color/colorWhite"
+                android:contentDescription="@string/desc_plus"
+                android:tint="@color/colorGradientGreenStop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/a_main_text_view_rest_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/rest_interval"
+            android:textColor="@color/colorBlack"
+            android:textSize="22sp"
+            android:paddingTop="30dp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/a_main_constraint_layout_rest_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="50dp">
+
+            <ImageButton
+                android:id="@+id/a_main_image_button_rest_interval_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorWhite"
+                android:contentDescription="@string/desc_minus"
+                android:tint="@color/colorGradientGreenStop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px" />
+
+            <TextView
+                android:id="@+id/a_main_text_view_rest_interval_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/a_main_image_button_rest_interval_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:background="@color/colorWhite"
+                android:contentDescription="@string/desc_plus"
+                android:tint="@color/colorGradientGreenStop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/a_main_button_start"
+            android:background="@drawable/custom_rectangle_green_cr30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upper_start"
+            android:textColor="@color/colorWhite"
+            app:fontFamily="@font/montserrat"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:elevation="2dp"
+            android:translationZ="2dp"
+            android:stateListAnimator="@null"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
