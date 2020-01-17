@@ -1,12 +1,15 @@
 package alexandre.ladriere.intervaltimer
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 const val FORMAT = "%02d"
 
@@ -39,7 +42,10 @@ class MainActivity : AppCompatActivity() {
         restIntervalMinusB = a_main_image_button_rest_interval_minus
         restIntervalPlusB = a_main_image_button_rest_interval_plus
         startB = a_main_button_start
+        iniButtonListener()
+    }
 
+    private fun iniButtonListener() {
         setNumberMinusB.setOnClickListener {
             plusOrMinus1(setNumberTV, false)
         }
@@ -58,16 +64,22 @@ class MainActivity : AppCompatActivity() {
         restIntervalMinusB.setOnClickListener {
             minus10(restIntervalTV)
         }
+
+        setButtonLongClick(restIntervalPlusB, restIntervalTV)
+        setButtonLongClick(workIntervalPlusB, workIntervalTV)
+        setButtonLongClick(restIntervalMinusB, restIntervalTV, add = false)
+        setButtonLongClick(workIntervalMinusB, workIntervalTV, add = false)
+        setButtonLongClick(setNumberMinusB, setNumberTV, add = false, time = false)
+        setButtonLongClick(setNumberPlusB, setNumberTV, add = true, time = false)
     }
 
     private fun plus10(textViewTime: TextView) {
         var currentTime = textViewTime.text.toString()
         var seconds = getTimeFromStr(currentTime).second
         var minutes = getTimeFromStr(currentTime).first
-        if(seconds < 50) {
+        if (seconds < 50) {
             seconds += 10
-        }
-        else if(seconds == 50) {
+        } else if (seconds == 50) {
             seconds = 0
             minutes += 1
         }
@@ -79,15 +91,13 @@ class MainActivity : AppCompatActivity() {
         var currentTime = textViewTime.text.toString()
         var seconds = getTimeFromStr(currentTime).second
         var minutes = getTimeFromStr(currentTime).first
-        if(seconds > 0) {
+        if (seconds > 0) {
             seconds -= 10
-        }
-        else if(seconds == 0) {
-            if(minutes != 0) {
+        } else if (seconds == 0) {
+            if (minutes != 0) {
                 seconds = 50
                 minutes -= 1
-            }
-            else {
+            } else {
                 seconds = 0
                 minutes = 0
             }
@@ -98,23 +108,54 @@ class MainActivity : AppCompatActivity() {
 
     private fun plusOrMinus1(textViewSet: TextView, add: Boolean = true) {
         var currentSetNumber = textViewSet.text.toString().toInt()
-        if(add) {
+        if (add) {
             currentSetNumber += 1
-        }
-        else if(currentSetNumber != 0 && !add) {
+        } else if (currentSetNumber != 0 && !add) {
             currentSetNumber -= 1
-        }
-        else if(currentSetNumber == 0 && !add) {
+        } else if (currentSetNumber == 0 && !add) {
             currentSetNumber = 0
         }
         textViewSet.text = currentSetNumber.toString()
     }
 
-    private fun getTimeFromStr(timeStr: String) : Pair<Int, Int> {
+    private fun getTimeFromStr(timeStr: String): Pair<Int, Int> {
         val tmpList = timeStr.split(":")
         val minutes = tmpList[0].toInt()
         val seconds = tmpList[1].toInt()
         return Pair(minutes, seconds)
+    }
+
+    private fun setButtonLongClick(
+        button: ImageButton,
+        textView: TextView,
+        add: Boolean = true,
+        time: Boolean = true
+    ) {
+        button.setOnLongClickListener(object : OnLongClickListener {
+            private val mHandler: Handler = Handler()
+            private val incrementRunnable: Runnable = object : Runnable {
+                override fun run() {
+                    mHandler.removeCallbacks(this)
+                    if (button.isPressed) {
+                        if (time) {
+                            if (add) {
+                                plus10(textView)
+                            } else {
+                                minus10(textView)
+                            }
+                        } else {
+                            plusOrMinus1(textView, add)
+                        }
+                        mHandler.postDelayed(this, 100)
+                    }
+                }
+            }
+
+            override fun onLongClick(view: View): Boolean {
+                mHandler.postDelayed(incrementRunnable, 0)
+                return true
+            }
+        })
     }
 
     private fun hideSystemUI() {
