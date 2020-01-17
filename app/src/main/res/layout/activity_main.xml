@@ -52,7 +52,7 @@
                 app:srcCompat="@drawable/ic_remove_24px" />
 
             <TextView
-                android:id="@+id/a_main_text_view_sets_time"
+                android:id="@+id/a_main_text_view_sets_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
