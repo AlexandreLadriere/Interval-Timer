@@ -1,11 +1,12 @@
 package alexandre.ladriere.intervaltimer
 
-import alexandre.ladriere.intervaltimer.utils.convertMinutesToSeconds
+import alexandre.ladriere.intervaltimer.utils.convertSecondsToMinutes
 import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.activity_timer.*
@@ -20,9 +21,10 @@ class TimerActivity : AppCompatActivity() {
     private var setNumberIni: Int = 0
     private var workSecondsIni: Int = 0
     private var restSecondsIni: Int = 0
-    private var setNumber: Int = 0
-    private var workSeconds: Int = 0
-    private var restSeconds: Int = 0
+    private var currentSetNumber: Int = 0
+    private var currentWorkSeconds: Int = 0
+    private var currentRestSeconds: Int = 0
+    private var currentStep: Int = 0
     private var timer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,39 +35,64 @@ class TimerActivity : AppCompatActivity() {
         stepTV = a_timer_text_view_step
         stepCountTV = a_timer_text_view_step_count
         getValues()
-        iniWorkout()
+        iniGetReady()
     }
 
-    private fun iniWorkout() {
+    private fun iniGetReady() {
+        currentStep = 0
         constraintLayout.setBackgroundResource(R.drawable.blue_gradient)
-        stepCountTV.text = resources.getString(R.string.upper_set) + " " + setNumber.toString()
+        stepCountTV.text =
+            resources.getString(R.string.upper_set) + " " + currentSetNumber.toString()
         stepTV.text = resources.getString(R.string.upper_get_ready)
         timeTV.text = resources.getString(R.string.ini_time)
         startTimer(6)
     }
 
+    private fun iniWorkout() {
+        currentStep = 1
+        constraintLayout.setBackgroundResource(R.drawable.green_gradient)
+        stepCountTV.text =
+            resources.getString(R.string.upper_set) + " " + currentSetNumber.toString()
+        stepTV.text = resources.getString(R.string.upper_work_it)
+        timeTV.text = "${String.format(
+            FORMAT,
+            convertSecondsToMinutes(workSecondsIni).first
+        )}:${String.format(FORMAT, convertSecondsToMinutes(workSecondsIni).second + 1)}"
+        startTimer(workSecondsIni + 1)
+    }
+
+    private fun iniRest() {
+        currentStep = 2
+        constraintLayout.setBackgroundResource(R.drawable.pink_gradient)
+        stepTV.text = resources.getString(R.string.upper_work_it)
+        timeTV.text = "${String.format(
+            FORMAT,
+            convertSecondsToMinutes(restSecondsIni).first
+        )}:${String.format(FORMAT, convertSecondsToMinutes(restSecondsIni).second + 1)}"
+        startTimer(restSecondsIni + 1)
+        currentSetNumber -= 1
+    }
+
     private fun getValues() {
         setNumberIni = intent.getIntExtra(INTENT_SET_NUMBER, 0)
-        setNumber = setNumberIni
+        currentSetNumber = setNumberIni
         workSecondsIni = intent.getIntExtra(INTENT_WORK_INTERVAL, 0)
-        workSeconds = workSecondsIni
+        currentWorkSeconds = workSecondsIni
         restSecondsIni = intent.getIntExtra(INTENT_REST_INTERVAL, 0)
-        restSeconds = restSecondsIni
+        currentRestSeconds = restSecondsIni
     }
 
     private fun decreaseTV(textViewTime: TextView) {
         var currentTime = textViewTime.text.toString()
         var seconds = getTimeFromStr(currentTime).second
         var minutes = getTimeFromStr(currentTime).first
-        if(seconds == 0 && minutes != 0) {
+        if (seconds == 0 && minutes != 0) {
             seconds = 59
             minutes -= 1
-        }
-        else if(seconds == 0 && minutes == 0) {
+        } else if (seconds == 0 && minutes == 0) {
             seconds = 0
             minutes = 0
-        }
-        else {
+        } else {
             seconds -= 1
         }
         currentTime = String.format(FORMAT, minutes) + ":" + String.format(FORMAT, seconds)
@@ -77,7 +104,20 @@ class TimerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 decreaseTV(timeTV)
             }
-            override fun onFinish() {}
+
+            override fun onFinish() {
+                if (currentSetNumber != 0) {
+                    if (currentStep == 0 || currentStep == 2) {
+                        iniWorkout()
+                    } else if (currentStep == 1) {
+                        iniRest()
+                    } else {
+                        finish()
+                    }
+                } else {
+                    finish()
+                }
+            }
         }
         (timer as CountDownTimer).start()
     }
