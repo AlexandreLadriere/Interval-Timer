@@ -1,5 +1,6 @@
 package alexandre.ladriere.intervaltimer
 
+import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -42,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         restIntervalMinusB = a_main_image_button_rest_interval_minus
         restIntervalPlusB = a_main_image_button_rest_interval_plus
         startB = a_main_button_start
+        startB.setOnClickListener {
+
+        }
         iniButtonListener()
     }
 
@@ -116,13 +120,6 @@ class MainActivity : AppCompatActivity() {
             currentSetNumber = 0
         }
         textViewSet.text = currentSetNumber.toString()
-    }
-
-    private fun getTimeFromStr(timeStr: String): Pair<Int, Int> {
-        val tmpList = timeStr.split(":")
-        val minutes = tmpList[0].toInt()
-        val seconds = tmpList[1].toInt()
-        return Pair(minutes, seconds)
     }
 
     private fun setButtonLongClick(
