@@ -1,23 +1,47 @@
 package alexandre.ladriere.intervaltimer
 
-import androidx.appcompat.app.AppCompatActivity
+import alexandre.ladriere.intervaltimer.utils.convertMinutesToSeconds
+import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
-import android.widget.Toast
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import kotlinx.android.synthetic.main.activity_timer.*
+
 
 class TimerActivity : AppCompatActivity() {
 
+    private lateinit var constraintLayout: ConstraintLayout
+    private lateinit var timeTV: TextView
+    private lateinit var stepTV: TextView
+    private lateinit var stepCountTV: TextView
     private var setNumberIni: Int = 0
     private var workSecondsIni: Int = 0
     private var restSecondsIni: Int = 0
     private var setNumber: Int = 0
     private var workSeconds: Int = 0
     private var restSeconds: Int = 0
+    private var timer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
+        constraintLayout = a_timer_constraint_layout_main
+        timeTV = a_timer_text_view_time
+        stepTV = a_timer_text_view_step
+        stepCountTV = a_timer_text_view_step_count
         getValues()
+        iniWorkout()
+    }
+
+    private fun iniWorkout() {
+        constraintLayout.setBackgroundResource(R.drawable.blue_gradient)
+        stepCountTV.text = resources.getString(R.string.upper_set) + " " + setNumber.toString()
+        stepTV.text = resources.getString(R.string.upper_get_ready)
+        timeTV.text = resources.getString(R.string.ini_time)
+        startTimer(6)
     }
 
     private fun getValues() {
@@ -27,6 +51,39 @@ class TimerActivity : AppCompatActivity() {
         workSeconds = workSecondsIni
         restSecondsIni = intent.getIntExtra(INTENT_REST_INTERVAL, 0)
         restSeconds = restSecondsIni
+    }
+
+    private fun decreaseTV(textViewTime: TextView) {
+        var currentTime = textViewTime.text.toString()
+        var seconds = getTimeFromStr(currentTime).second
+        var minutes = getTimeFromStr(currentTime).first
+        if(seconds == 0 && minutes != 0) {
+            seconds = 59
+            minutes -= 1
+        }
+        else if(seconds == 0 && minutes == 0) {
+            seconds = 0
+            minutes = 0
+        }
+        else {
+            seconds -= 1
+        }
+        currentTime = String.format(FORMAT, minutes) + ":" + String.format(FORMAT, seconds)
+        textViewTime.text = currentTime
+    }
+
+    private fun startTimer(sec: Int) {
+        timer = object : CountDownTimer((sec * 1000).toLong(), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                decreaseTV(timeTV)
+            }
+            override fun onFinish() {}
+        }
+        (timer as CountDownTimer).start()
+    }
+
+    private fun cancelTimer() {
+        timer?.cancel()
     }
 
     private fun hideSystemUI() {

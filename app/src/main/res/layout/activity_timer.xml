@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimerActivity"
-    android:background="@drawable/blue_gradient">
+    android:background="@drawable/blue_gradient"
+    android:id="@+id/a_timer_constraint_layout_main">
 
     <LinearLayout
         android:id="@+id/a_timer_linear_layout_v_main"
