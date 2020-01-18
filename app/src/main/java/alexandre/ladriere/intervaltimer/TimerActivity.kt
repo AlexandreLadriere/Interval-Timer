@@ -3,12 +3,30 @@ package alexandre.ladriere.intervaltimer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 
 class TimerActivity : AppCompatActivity() {
+
+    private var setNumberIni: Int = 0
+    private var workSecondsIni: Int = 0
+    private var restSecondsIni: Int = 0
+    private var setNumber: Int = 0
+    private var workSeconds: Int = 0
+    private var restSeconds: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
+        getValues()
+    }
+
+    private fun getValues() {
+        setNumberIni = intent.getIntExtra(INTENT_SET_NUMBER, 0)
+        setNumber = setNumberIni
+        workSecondsIni = intent.getIntExtra(INTENT_WORK_INTERVAL, 0)
+        workSeconds = workSecondsIni
+        restSecondsIni = intent.getIntExtra(INTENT_REST_INTERVAL, 0)
+        restSeconds = restSecondsIni
     }
 
     private fun hideSystemUI() {
