@@ -97,6 +97,7 @@ class TimerActivity : AppCompatActivity() {
         stepTV.isVisible = false
         stepCountTV.isVisible = false
         timeTV.text = resources.getString(R.string.upper_done)
+        playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
     }
 
     private fun getValues() {
