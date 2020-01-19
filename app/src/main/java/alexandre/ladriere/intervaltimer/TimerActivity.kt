@@ -59,6 +59,8 @@ class TimerActivity : AppCompatActivity() {
 
     private fun iniGetReady() {
         currentStep = 0
+        stepTV.isVisible = true
+        stepCountTV.isVisible = true
         constraintLayout.setBackgroundResource(R.drawable.green_gradient)
         stepCountTV.text =
             resources.getString(R.string.upper_set) + " " + currentSetNumber.toString()
