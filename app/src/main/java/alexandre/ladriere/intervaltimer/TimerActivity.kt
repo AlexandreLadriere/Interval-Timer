@@ -53,13 +53,12 @@ class TimerActivity : AppCompatActivity() {
             iniGetReady()
         }
         playPauseB.setOnClickListener {
-            if(!isPaused) {
+            if (!isPaused) {
                 cancelTimer()
                 playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
                 isPaused = true
-            }
-            else {
-                if(currentStep != -1) {
+            } else {
+                if (currentStep != -1) {
                     currentTime = convertMinutesToSeconds(
                         getTimeFromStr(timeTV.text.toString()).first,
                         getTimeFromStr(timeTV.text.toString()).second

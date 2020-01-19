@@ -51,8 +51,14 @@ class MainActivity : AppCompatActivity() {
         startB = a_main_button_start
         startB.setOnClickListener {
             val setNumber: Int = setNumberTV.text.toString().toInt()
-            val workSeconds: Int = convertMinutesToSeconds(getTimeFromStr(workIntervalTV.text.toString()).first, getTimeFromStr(workIntervalTV.text.toString()).second)
-            val restSeconds: Int = convertMinutesToSeconds(getTimeFromStr(restIntervalTV.text.toString()).first, getTimeFromStr(restIntervalTV.text.toString()).second)
+            val workSeconds: Int = convertMinutesToSeconds(
+                getTimeFromStr(workIntervalTV.text.toString()).first,
+                getTimeFromStr(workIntervalTV.text.toString()).second
+            )
+            val restSeconds: Int = convertMinutesToSeconds(
+                getTimeFromStr(restIntervalTV.text.toString()).first,
+                getTimeFromStr(restIntervalTV.text.toString()).second
+            )
             val intent = Intent(this, TimerActivity::class.java)
             intent.putExtra(INTENT_SET_NUMBER, setNumber)
             intent.putExtra(INTENT_WORK_INTERVAL, workSeconds)
