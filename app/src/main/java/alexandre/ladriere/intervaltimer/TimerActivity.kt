@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_timer.*
 
 
@@ -40,7 +40,7 @@ class TimerActivity : AppCompatActivity() {
 
     private fun iniGetReady() {
         currentStep = 0
-        constraintLayout.setBackgroundResource(R.drawable.blue_gradient)
+        constraintLayout.setBackgroundResource(R.drawable.green_gradient)
         stepCountTV.text =
             resources.getString(R.string.upper_set) + " " + currentSetNumber.toString()
         stepTV.text = resources.getString(R.string.upper_get_ready)
@@ -50,7 +50,7 @@ class TimerActivity : AppCompatActivity() {
 
     private fun iniWorkout() {
         currentStep = 1
-        constraintLayout.setBackgroundResource(R.drawable.green_gradient)
+        constraintLayout.setBackgroundResource(R.drawable.blue_gradient)
         stepCountTV.text =
             resources.getString(R.string.upper_set) + " " + currentSetNumber.toString()
         stepTV.text = resources.getString(R.string.upper_work_it)
@@ -64,13 +64,20 @@ class TimerActivity : AppCompatActivity() {
     private fun iniRest() {
         currentStep = 2
         constraintLayout.setBackgroundResource(R.drawable.pink_gradient)
-        stepTV.text = resources.getString(R.string.upper_work_it)
+        stepTV.text = resources.getString(R.string.upper_rest_now)
         timeTV.text = "${String.format(
             FORMAT,
             convertSecondsToMinutes(restSecondsIni).first
         )}:${String.format(FORMAT, convertSecondsToMinutes(restSecondsIni).second + 1)}"
         startTimer(restSecondsIni + 1)
         currentSetNumber -= 1
+    }
+
+    private fun iniDone() {
+        currentStep = -1
+        stepTV.isVisible = false
+        stepCountTV.isVisible = false
+        timeTV.text = resources.getString(R.string.upper_done)
     }
 
     private fun getValues() {
@@ -115,7 +122,7 @@ class TimerActivity : AppCompatActivity() {
                         finish()
                     }
                 } else {
-                    finish()
+                    iniDone()
                 }
             }
         }
