@@ -46,6 +46,11 @@ class TimerActivity : AppCompatActivity() {
             cancelTimer()
             this.finish()
         }
+        replayB.setOnClickListener {
+            cancelTimer()
+            replayValues()
+            iniGetReady()
+        }
 
 
         getValues()
@@ -145,6 +150,12 @@ class TimerActivity : AppCompatActivity() {
 
     private fun cancelTimer() {
         timer?.cancel()
+    }
+
+    private fun replayValues() {
+        currentSetNumber = setNumberIni
+        currentWorkSeconds = workSecondsIni
+        currentRestSeconds = restSecondsIni
     }
 
     override fun onDestroy() {
