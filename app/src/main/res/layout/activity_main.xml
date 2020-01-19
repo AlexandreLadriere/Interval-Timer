@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:context=".MainActivity">
 
 
     <LinearLayout
@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
         android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,10 +88,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:paddingTop="30dp"
             android:text="@string/work_interval"
             android:textColor="@color/colorBlack"
             android:textSize="22sp"
-            android:paddingTop="30dp"
             app:fontFamily="@font/montserrat" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -152,10 +152,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:paddingTop="30dp"
             android:text="@string/rest_interval"
             android:textColor="@color/colorBlack"
             android:textSize="22sp"
-            android:paddingTop="30dp"
             app:fontFamily="@font/montserrat" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -212,17 +212,17 @@
 
         <Button
             android:id="@+id/a_main_button_start"
-            android:background="@drawable/custom_rectangle_green_cr30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_rectangle_green_cr30"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:stateListAnimator="@null"
             android:text="@string/upper_start"
             android:textColor="@color/colorWhite"
-            app:fontFamily="@font/montserrat"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:elevation="2dp"
             android:translationZ="2dp"
-            android:stateListAnimator="@null"/>
+            app:fontFamily="@font/montserrat" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

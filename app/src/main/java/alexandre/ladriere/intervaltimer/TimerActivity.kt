@@ -3,6 +3,7 @@ package alexandre.ladriere.intervaltimer
 import alexandre.ladriere.intervaltimer.utils.convertMinutesToSeconds
 import alexandre.ladriere.intervaltimer.utils.convertSecondsToMinutes
 import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
@@ -23,6 +24,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var playPauseB: ImageButton
     private lateinit var replayB: ImageButton
     private lateinit var stopB: ImageButton
+    private lateinit var soundB: ImageButton
     private var setNumberIni: Int = 0
     private var workSecondsIni: Int = 0
     private var restSecondsIni: Int = 0
@@ -31,6 +33,9 @@ class TimerActivity : AppCompatActivity() {
     private var currentTime: Int = 0
     private var timer: CountDownTimer? = null
     private var isPaused: Boolean = false
+    private var isMuted: Boolean = false
+    private lateinit var mpGetReady: MediaPlayer
+    private lateinit var mpStart: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +47,24 @@ class TimerActivity : AppCompatActivity() {
         playPauseB = a_timer_image_button_play_pause
         stopB = a_timer_image_button_stop
         replayB = a_timer_image_button_replay
+        soundB = a_timer_image_button_sound
+        mpGetReady = MediaPlayer.create(this, R.raw.beep_get_ready)
+        mpStart = MediaPlayer.create(this, R.raw.beep_start)
+        iniActionButtons()
+        getValues()
+        iniGetReady()
+    }
 
+    private fun iniActionButtons() {
+        soundB.setOnClickListener {
+            isMuted = if (isMuted) {
+                soundB.setImageResource(R.drawable.ic_volume_up_24px)
+                false
+            } else {
+                soundB.setImageResource(R.drawable.ic_volume_off_24px)
+                true
+            }
+        }
         stopB.setOnClickListener {
             cancelTimer()
             this.finish()
@@ -53,13 +75,12 @@ class TimerActivity : AppCompatActivity() {
             iniGetReady()
         }
         playPauseB.setOnClickListener {
-            if(!isPaused) {
+            if (!isPaused) {
                 cancelTimer()
                 playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
                 isPaused = true
-            }
-            else {
-                if(currentStep != -1) {
+            } else {
+                if (currentStep != -1) {
                     currentTime = convertMinutesToSeconds(
                         getTimeFromStr(timeTV.text.toString()).first,
                         getTimeFromStr(timeTV.text.toString()).second
@@ -70,9 +91,6 @@ class TimerActivity : AppCompatActivity() {
                 }
             }
         }
-
-        getValues()
-        iniGetReady()
     }
 
     private fun iniGetReady() {
@@ -132,14 +150,30 @@ class TimerActivity : AppCompatActivity() {
         var currentTime = textViewTime.text.toString()
         var seconds = getTimeFromStr(currentTime).second
         var minutes = getTimeFromStr(currentTime).first
-        if (seconds == 0 && minutes != 0) {
-            seconds = 59
-            minutes -= 1
-        } else if (seconds == 0 && minutes == 0) {
-            seconds = 0
-            minutes = 0
+        if (minutes != 0) {
+            if (seconds == 0) {
+                seconds = 59
+                minutes -= 1
+            } else {
+                seconds -= 1
+            }
         } else {
-            seconds -= 1
+            if (seconds in 1..4) {
+                seconds -= 1
+                if (seconds == 0) {
+                    if (!isMuted) {
+                        mpStart.start()
+                    }
+                    seconds = 0
+                    minutes = 0
+                } else {
+                    if (!isMuted) {
+                        mpGetReady.start()
+                    }
+                }
+            } else {
+                seconds -= 1
+            }
         }
         currentTime = String.format(FORMAT, minutes) + ":" + String.format(FORMAT, seconds)
         textViewTime.text = currentTime
