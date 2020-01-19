@@ -3,11 +3,13 @@ package alexandre.ladriere.intervaltimer
 import alexandre.ladriere.intervaltimer.utils.convertMinutesToSeconds
 import alexandre.ladriere.intervaltimer.utils.convertSecondsToMinutes
 import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -31,6 +33,8 @@ class TimerActivity : AppCompatActivity() {
     private var currentTime: Int = 0
     private var timer: CountDownTimer? = null
     private var isPaused: Boolean = false
+    private lateinit var mpGetReady: MediaPlayer
+    private lateinit var mpStart: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +46,14 @@ class TimerActivity : AppCompatActivity() {
         playPauseB = a_timer_image_button_play_pause
         stopB = a_timer_image_button_stop
         replayB = a_timer_image_button_replay
+        mpGetReady = MediaPlayer.create(this, R.raw.beep_get_ready)
+        mpStart = MediaPlayer.create(this, R.raw.beep_start)
+        iniActionButtons()
+        getValues()
+        iniGetReady()
+    }
 
+    private fun iniActionButtons() {
         stopB.setOnClickListener {
             cancelTimer()
             this.finish()
@@ -69,9 +80,6 @@ class TimerActivity : AppCompatActivity() {
                 }
             }
         }
-
-        getValues()
-        iniGetReady()
     }
 
     private fun iniGetReady() {
@@ -131,14 +139,27 @@ class TimerActivity : AppCompatActivity() {
         var currentTime = textViewTime.text.toString()
         var seconds = getTimeFromStr(currentTime).second
         var minutes = getTimeFromStr(currentTime).first
-        if (seconds == 0 && minutes != 0) {
-            seconds = 59
-            minutes -= 1
-        } else if (seconds == 0 && minutes == 0) {
-            seconds = 0
-            minutes = 0
+        if (minutes != 0) {
+            if (seconds == 0) {
+                seconds = 59
+                minutes -= 1
+            } else {
+                seconds -= 1
+            }
         } else {
-            seconds -= 1
+            if (seconds in 1..4) {
+                seconds -= 1
+                if(seconds == 0) {
+                    mpStart.start()
+                    seconds = 0
+                    minutes = 0
+                }
+                else {
+                    mpGetReady.start()
+                }
+            } else {
+                seconds -= 1
+            }
         }
         currentTime = String.format(FORMAT, minutes) + ":" + String.format(FORMAT, seconds)
         textViewTime.text = currentTime
