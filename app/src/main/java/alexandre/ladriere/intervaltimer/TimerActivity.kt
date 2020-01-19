@@ -1,5 +1,6 @@
 package alexandre.ladriere.intervaltimer
 
+import alexandre.ladriere.intervaltimer.utils.convertMinutesToSeconds
 import alexandre.ladriere.intervaltimer.utils.convertSecondsToMinutes
 import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
 import android.os.Bundle
@@ -26,10 +27,10 @@ class TimerActivity : AppCompatActivity() {
     private var workSecondsIni: Int = 0
     private var restSecondsIni: Int = 0
     private var currentSetNumber: Int = 0
-    private var currentWorkSeconds: Int = 0
-    private var currentRestSeconds: Int = 0
     private var currentStep: Int = 0
+    private var currentTime: Int = 0
     private var timer: CountDownTimer? = null
+    private var isPaused: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +49,27 @@ class TimerActivity : AppCompatActivity() {
         }
         replayB.setOnClickListener {
             cancelTimer()
-            replayValues()
+            currentSetNumber = setNumberIni
             iniGetReady()
         }
-
+        playPauseB.setOnClickListener {
+            if(!isPaused) {
+                cancelTimer()
+                playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
+                isPaused = true
+            }
+            else {
+                if(currentStep != -1) {
+                    currentTime = convertMinutesToSeconds(
+                        getTimeFromStr(timeTV.text.toString()).first,
+                        getTimeFromStr(timeTV.text.toString()).second
+                    )
+                    playPauseB.setImageResource(R.drawable.ic_pause_24px)
+                    startTimer(currentTime)
+                    isPaused = false
+                }
+            }
+        }
 
         getValues()
         iniGetReady()
@@ -59,6 +77,7 @@ class TimerActivity : AppCompatActivity() {
 
     private fun iniGetReady() {
         currentStep = 0
+        playPauseB.setImageResource(R.drawable.ic_pause_24px)
         stepTV.isVisible = true
         stepCountTV.isVisible = true
         constraintLayout.setBackgroundResource(R.drawable.green_gradient)
@@ -106,9 +125,7 @@ class TimerActivity : AppCompatActivity() {
         setNumberIni = intent.getIntExtra(INTENT_SET_NUMBER, 0)
         currentSetNumber = setNumberIni
         workSecondsIni = intent.getIntExtra(INTENT_WORK_INTERVAL, 0)
-        currentWorkSeconds = workSecondsIni
         restSecondsIni = intent.getIntExtra(INTENT_REST_INTERVAL, 0)
-        currentRestSeconds = restSecondsIni
     }
 
     private fun decreaseTV(textViewTime: TextView) {
@@ -153,12 +170,6 @@ class TimerActivity : AppCompatActivity() {
 
     private fun cancelTimer() {
         timer?.cancel()
-    }
-
-    private fun replayValues() {
-        currentSetNumber = setNumberIni
-        currentWorkSeconds = workSecondsIni
-        currentRestSeconds = restSecondsIni
     }
 
     override fun onDestroy() {
