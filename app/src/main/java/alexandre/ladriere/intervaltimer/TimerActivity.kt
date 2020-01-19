@@ -1,10 +1,12 @@
 package alexandre.ladriere.intervaltimer
 
+import alexandre.ladriere.intervaltimer.utils.convertMinutesToSeconds
 import alexandre.ladriere.intervaltimer.utils.convertSecondsToMinutes
 import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -18,14 +20,17 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var timeTV: TextView
     private lateinit var stepTV: TextView
     private lateinit var stepCountTV: TextView
+    private lateinit var playPauseB: ImageButton
+    private lateinit var replayB: ImageButton
+    private lateinit var stopB: ImageButton
     private var setNumberIni: Int = 0
     private var workSecondsIni: Int = 0
     private var restSecondsIni: Int = 0
     private var currentSetNumber: Int = 0
-    private var currentWorkSeconds: Int = 0
-    private var currentRestSeconds: Int = 0
     private var currentStep: Int = 0
+    private var currentTime: Int = 0
     private var timer: CountDownTimer? = null
+    private var isPaused: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +39,47 @@ class TimerActivity : AppCompatActivity() {
         timeTV = a_timer_text_view_time
         stepTV = a_timer_text_view_step
         stepCountTV = a_timer_text_view_step_count
+        playPauseB = a_timer_image_button_play_pause
+        stopB = a_timer_image_button_stop
+        replayB = a_timer_image_button_replay
+
+        stopB.setOnClickListener {
+            cancelTimer()
+            this.finish()
+        }
+        replayB.setOnClickListener {
+            cancelTimer()
+            currentSetNumber = setNumberIni
+            iniGetReady()
+        }
+        playPauseB.setOnClickListener {
+            if(!isPaused) {
+                cancelTimer()
+                playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
+                isPaused = true
+            }
+            else {
+                if(currentStep != -1) {
+                    currentTime = convertMinutesToSeconds(
+                        getTimeFromStr(timeTV.text.toString()).first,
+                        getTimeFromStr(timeTV.text.toString()).second
+                    )
+                    playPauseB.setImageResource(R.drawable.ic_pause_24px)
+                    startTimer(currentTime)
+                    isPaused = false
+                }
+            }
+        }
+
         getValues()
         iniGetReady()
     }
 
     private fun iniGetReady() {
         currentStep = 0
+        playPauseB.setImageResource(R.drawable.ic_pause_24px)
+        stepTV.isVisible = true
+        stepCountTV.isVisible = true
         constraintLayout.setBackgroundResource(R.drawable.green_gradient)
         stepCountTV.text =
             resources.getString(R.string.upper_set) + " " + currentSetNumber.toString()
@@ -78,15 +118,14 @@ class TimerActivity : AppCompatActivity() {
         stepTV.isVisible = false
         stepCountTV.isVisible = false
         timeTV.text = resources.getString(R.string.upper_done)
+        playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
     }
 
     private fun getValues() {
         setNumberIni = intent.getIntExtra(INTENT_SET_NUMBER, 0)
         currentSetNumber = setNumberIni
         workSecondsIni = intent.getIntExtra(INTENT_WORK_INTERVAL, 0)
-        currentWorkSeconds = workSecondsIni
         restSecondsIni = intent.getIntExtra(INTENT_REST_INTERVAL, 0)
-        currentRestSeconds = restSecondsIni
     }
 
     private fun decreaseTV(textViewTime: TextView) {
@@ -131,6 +170,11 @@ class TimerActivity : AppCompatActivity() {
 
     private fun cancelTimer() {
         timer?.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelTimer()
     }
 
     private fun hideSystemUI() {
