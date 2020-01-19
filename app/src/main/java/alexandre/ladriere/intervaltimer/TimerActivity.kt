@@ -9,7 +9,6 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -25,6 +24,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var playPauseB: ImageButton
     private lateinit var replayB: ImageButton
     private lateinit var stopB: ImageButton
+    private lateinit var soundB: ImageButton
     private var setNumberIni: Int = 0
     private var workSecondsIni: Int = 0
     private var restSecondsIni: Int = 0
@@ -33,6 +33,7 @@ class TimerActivity : AppCompatActivity() {
     private var currentTime: Int = 0
     private var timer: CountDownTimer? = null
     private var isPaused: Boolean = false
+    private var isMuted: Boolean = false
     private lateinit var mpGetReady: MediaPlayer
     private lateinit var mpStart: MediaPlayer
 
@@ -46,6 +47,7 @@ class TimerActivity : AppCompatActivity() {
         playPauseB = a_timer_image_button_play_pause
         stopB = a_timer_image_button_stop
         replayB = a_timer_image_button_replay
+        soundB = a_timer_image_button_sound
         mpGetReady = MediaPlayer.create(this, R.raw.beep_get_ready)
         mpStart = MediaPlayer.create(this, R.raw.beep_start)
         iniActionButtons()
@@ -54,6 +56,15 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun iniActionButtons() {
+        soundB.setOnClickListener {
+            isMuted = if (isMuted) {
+                soundB.setImageResource(R.drawable.ic_volume_up_24px)
+                false
+            } else {
+                soundB.setImageResource(R.drawable.ic_volume_off_24px)
+                true
+            }
+        }
         stopB.setOnClickListener {
             cancelTimer()
             this.finish()
@@ -149,13 +160,16 @@ class TimerActivity : AppCompatActivity() {
         } else {
             if (seconds in 1..4) {
                 seconds -= 1
-                if(seconds == 0) {
-                    mpStart.start()
+                if (seconds == 0) {
+                    if (!isMuted) {
+                        mpStart.start()
+                    }
                     seconds = 0
                     minutes = 0
-                }
-                else {
-                    mpGetReady.start()
+                } else {
+                    if (!isMuted) {
+                        mpGetReady.start()
+                    }
                 }
             } else {
                 seconds -= 1
