@@ -5,6 +5,7 @@ import alexandre.ladriere.intervaltimer.utils.getTimeFromStr
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +19,9 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var timeTV: TextView
     private lateinit var stepTV: TextView
     private lateinit var stepCountTV: TextView
+    private lateinit var playPauseB: ImageButton
+    private lateinit var replayB: ImageButton
+    private lateinit var stopB: ImageButton
     private var setNumberIni: Int = 0
     private var workSecondsIni: Int = 0
     private var restSecondsIni: Int = 0
@@ -34,6 +38,16 @@ class TimerActivity : AppCompatActivity() {
         timeTV = a_timer_text_view_time
         stepTV = a_timer_text_view_step
         stepCountTV = a_timer_text_view_step_count
+        playPauseB = a_timer_image_button_play_pause
+        stopB = a_timer_image_button_stop
+        replayB = a_timer_image_button_replay
+
+        stopB.setOnClickListener {
+            cancelTimer()
+            this.finish()
+        }
+
+
         getValues()
         iniGetReady()
     }
@@ -131,6 +145,11 @@ class TimerActivity : AppCompatActivity() {
 
     private fun cancelTimer() {
         timer?.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelTimer()
     }
 
     private fun hideSystemUI() {
