@@ -9,8 +9,10 @@
         android:roundIcon="@drawable/ic_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TimerActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".TimerActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
