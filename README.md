@@ -1,3 +1,5 @@
+<div align="center">
+
 # Interval Timer (Android)
 
 [![GitHub license](https://img.shields.io/github/license/AlexandreLadriere/Interval-Timer.svg)](https://github.com/AlexandreLadriere/Interval-Timer/blob/master/LICENSE)
@@ -6,6 +8,9 @@
 
 Simplistic interval timer for Android.
 Useful for HIIT, Tabata or Boxe workouts.
+
+<img alt="mockup.jpg" src="demo/mockup.jpg"/> 
+</div>
 
 ## Screenshots
 <div align="center">
